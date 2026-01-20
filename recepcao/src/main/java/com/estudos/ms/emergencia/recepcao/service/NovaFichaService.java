@@ -5,13 +5,22 @@ import com.estudos.ms.emergencia.recepcao.enums.Risco;
 import com.estudos.ms.emergencia.recepcao.enums.SetorEspecialidade;
 import com.estudos.ms.emergencia.recepcao.model.Ficha;
 import com.estudos.ms.emergencia.recepcao.model.Paciente;
+import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class NovaFichaService {
 
+    private FichaRepository repository;
+
+    public NovaFichaService(FichaRepository repository) {
+        this.repository = repository;
+    }
 
     //dto da ficha, informada pelo front
     public void execute(NovaFichaRequestDTO novaFichaRequestDTO) {
         var ficha = montarFica(novaFichaRequestDTO);
+        this.repository.save(ficha);
 
         //chamar repositorio e salvar ficha
         //mandar pro kafka
