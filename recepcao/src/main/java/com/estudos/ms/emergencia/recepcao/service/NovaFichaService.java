@@ -1,8 +1,10 @@
 package com.estudos.ms.emergencia.recepcao.service;
 
+import com.estudos.ms.emergencia.recepcao.dto.FichaCriadaDTO;
 import com.estudos.ms.emergencia.recepcao.dto.NovaFichaRequestDTO;
 import com.estudos.ms.emergencia.recepcao.enums.Risco;
 import com.estudos.ms.emergencia.recepcao.enums.SetorEspecialidade;
+import com.estudos.ms.emergencia.recepcao.mapper.FichaMapper;
 import com.estudos.ms.emergencia.recepcao.model.Ficha;
 import com.estudos.ms.emergencia.recepcao.model.Paciente;
 import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
@@ -18,10 +20,11 @@ public class NovaFichaService {
     }
 
     //dto da ficha, informada pelo front
-    public void execute(NovaFichaRequestDTO novaFichaRequestDTO) {
+    public FichaCriadaDTO execute(NovaFichaRequestDTO novaFichaRequestDTO) {
         var ficha = montarFica(novaFichaRequestDTO);
-        this.repository.save(ficha);
+        var fichaCriada = this.repository.save(ficha);
 
+        return FichaMapper.converteDeEntidadeParaRespostaDTO(fichaCriada);
         //chamar repositorio e salvar ficha
         //mandar pro kafka
     }

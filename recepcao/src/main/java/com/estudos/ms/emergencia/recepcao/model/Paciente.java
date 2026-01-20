@@ -12,5 +12,13 @@ public class Paciente {
         this.nome = nome;
         this.idade = idade;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Integer getIdade() {
+        return idade;
+    }
 }
 

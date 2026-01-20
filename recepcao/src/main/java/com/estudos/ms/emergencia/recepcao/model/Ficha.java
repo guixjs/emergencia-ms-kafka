@@ -37,4 +37,28 @@ public class Ficha {
         this.sintomas = sintomas;
         this.preferencial = preferencial;
     }
+
+    public Long getIdFicha() {
+        return idFicha;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public String getSetor() {
+        return setor.toString();
+    }
+
+    public String getRisco() {
+        return risco.toString();
+    }
+
+    public String getSintomas() {
+        return sintomas;
+    }
+
+    public boolean isPreferencial() {
+        return preferencial;
+    }
 }

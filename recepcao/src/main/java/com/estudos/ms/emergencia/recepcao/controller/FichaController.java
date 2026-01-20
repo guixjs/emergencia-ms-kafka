@@ -1,7 +1,10 @@
 package com.estudos.ms.emergencia.recepcao.controller;
 
+import com.estudos.ms.emergencia.recepcao.dto.FichaCriadaDTO;
 import com.estudos.ms.emergencia.recepcao.dto.NovaFichaRequestDTO;
 import com.estudos.ms.emergencia.recepcao.service.NovaFichaService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,8 @@ public class FichaController {
     }
 
     @PostMapping("/nova")
-    public void novaFicha(@RequestBody NovaFichaRequestDTO novaFichaRequestDTO){
-        this.service.execute(novaFichaRequestDTO);
+    public ResponseEntity<FichaCriadaDTO> novaFicha(@RequestBody NovaFichaRequestDTO novaFichaRequestDTO){
+        var response = this.service.execute(novaFichaRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }
