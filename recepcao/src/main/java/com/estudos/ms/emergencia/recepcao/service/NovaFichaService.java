@@ -8,25 +8,32 @@ import com.estudos.ms.emergencia.recepcao.mapper.FichaMapper;
 import com.estudos.ms.emergencia.recepcao.model.Ficha;
 import com.estudos.ms.emergencia.recepcao.model.Paciente;
 import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class NovaFichaService {
 
     private FichaRepository repository;
+    private KafkaTemplate<Long, FichaCriadaDTO> kafkaTemplate;
 
-    public NovaFichaService(FichaRepository repository) {
+    public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, FichaCriadaDTO> kafkaTemplate) {
         this.repository = repository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
-    //dto da ficha, informada pelo front
     public FichaCriadaDTO execute(NovaFichaRequestDTO novaFichaRequestDTO) {
         var ficha = montarFica(novaFichaRequestDTO);
-        var fichaCriada = this.repository.save(ficha);
+        var fichaCriada = FichaMapper.converteDeEntidadeParaRespostaDTO(this.repository.save(ficha));
 
-        return FichaMapper.converteDeEntidadeParaRespostaDTO(fichaCriada);
-        //chamar repositorio e salvar ficha
-        //mandar pro kafka
+        enviarFichaKafka(fichaCriada);
+        return fichaCriada;
+    }
+
+    private void enviarFichaKafka(FichaCriadaDTO fichaCriada) {
+        if (kafkaTemplate != null) {
+            kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), fichaCriada);
+        }
     }
 
     private Ficha montarFica(NovaFichaRequestDTO novaFichaRequestDTO) {
