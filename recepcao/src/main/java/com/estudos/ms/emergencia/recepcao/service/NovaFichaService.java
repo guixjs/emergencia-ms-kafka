@@ -10,16 +10,19 @@ import com.estudos.ms.emergencia.recepcao.model.Paciente;
 import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class NovaFichaService {
 
     private FichaRepository repository;
-    private KafkaTemplate<Long, FichaCriadaDTO> kafkaTemplate;
+    private KafkaTemplate<Long, String> kafkaTemplate;
+    private final ObjectMapper objectMapper;
 
-    public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, FichaCriadaDTO> kafkaTemplate) {
+    public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, String> kafkaTemplate, ObjectMapper objectMapper) {
         this.repository = repository;
         this.kafkaTemplate = kafkaTemplate;
+        this.objectMapper = objectMapper;
     }
 
     public FichaCriadaDTO execute(NovaFichaRequestDTO novaFichaRequestDTO) {
@@ -31,8 +34,10 @@ public class NovaFichaService {
     }
 
     private void enviarFichaKafka(FichaCriadaDTO fichaCriada) {
+
+        String json = objectMapper.writeValueAsString(fichaCriada);
         if (kafkaTemplate != null) {
-            kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), fichaCriada);
+            kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), json);
         }
     }
 
@@ -51,7 +56,7 @@ public class NovaFichaService {
             return Risco.ALTO;
         }
         if (sintomas.equalsIgnoreCase("Fratura")) {
-            if (idade < 18) {
+            if (idade < 18 || idade > 65) {
                 return Risco.ALTO;
             } else {
                 return Risco.MEDIO;
