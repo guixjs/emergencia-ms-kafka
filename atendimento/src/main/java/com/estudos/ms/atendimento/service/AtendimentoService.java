@@ -5,7 +5,6 @@ import com.estudos.ms.atendimento.model.AltaDTO;
 import com.estudos.ms.atendimento.model.FichaCriadaDTO;
 import com.estudos.ms.atendimento.model.InternacaoDTO;
 import com.estudos.ms.atendimento.model.MedicacaoDTO;
-import org.springframework.cglib.proxy.Dispatcher;
 
 public class AtendimentoService {
 

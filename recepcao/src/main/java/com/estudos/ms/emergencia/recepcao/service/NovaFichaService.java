@@ -56,7 +56,7 @@ public class NovaFichaService {
             return Risco.ALTO;
         }
         if (sintomas.equalsIgnoreCase("Fratura")) {
-            if (idade < 18) {
+            if (idade < 18 || idade > 65) {
                 return Risco.ALTO;
             } else {
                 return Risco.MEDIO;
