@@ -2,8 +2,10 @@ package com.estudos.ms.atendimento.service;
 
 import com.estudos.ms.atendimento.model.AtendimentoDTO;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
+@Service
 public class AtendimentoDispatcher {
 
     private final KafkaTemplate<Long, String> kafkaTemplate;
