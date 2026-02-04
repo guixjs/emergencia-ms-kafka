@@ -3,9 +3,10 @@ package com.estudos.ms.atendimento.model;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public record MedicacaoDTO(
-        Long fichaId,
+        Long id,
         String medicamento,
-        String dose
+        String dose,
+        FichaCriadaDTO ficha
 ) implements AtendimentoDTO {
 
     @Override

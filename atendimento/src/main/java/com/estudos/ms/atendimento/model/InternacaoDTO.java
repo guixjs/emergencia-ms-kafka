@@ -3,9 +3,11 @@ package com.estudos.ms.atendimento.model;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public record InternacaoDTO(
-        Long fichaId,
+        Long id,
         String quarto,
-        String ala
+        String ala,
+        String motivo,
+        FichaCriadaDTO ficha
 ) implements AtendimentoDTO {
 
     @Override
