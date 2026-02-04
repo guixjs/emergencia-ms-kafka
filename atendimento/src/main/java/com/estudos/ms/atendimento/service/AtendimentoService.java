@@ -21,9 +21,9 @@ public class AtendimentoService {
         var decisao = verificarSituacao(ficha);
 
         var atendimentoDTO = switch (decisao) {
-            case INTERNACAO -> new InternacaoDTO(ficha.id(), "Quarto 101", "Ala A");
-            case MEDICACAO -> new MedicacaoDTO(ficha.id(), "Paracetamol", "500mg");
-            case ALTA -> new AltaDTO(ficha.id(),"Repouso");
+            case INTERNACAO -> new InternacaoDTO(ficha.id(),"Quarto 101", "Ala A", "Cirurgia emergencial", ficha);
+            case MEDICACAO -> new MedicacaoDTO(ficha.id(),"Paracetamol", "500mg", ficha);
+            case ALTA -> new AltaDTO(ficha.id(),"Repouso",ficha);
         };
 
         atendimentoDispatcher.enviarAtendimento(atendimentoDTO, "ATENDIMENTO_"+atendimentoDTO.encaminhamento().name());
