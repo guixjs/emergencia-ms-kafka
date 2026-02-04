@@ -20,15 +20,17 @@ public class AtendimentoDispatcher {
     public void enviarAtendimento(AtendimentoDTO atendimento, String topico){
 
         try {
-            Thread.sleep(500); // simula um processamento demorado
+            // simulando atendimento
+            Thread.sleep(5000);
+            String json = objectMapper.writeValueAsString(atendimento);
+            if (kafkaTemplate != null) {
+                kafkaTemplate.send(topico, atendimento.id(), json);
+            }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        String json = objectMapper.writeValueAsString(atendimento);
-        if (kafkaTemplate != null) {
-            kafkaTemplate.send(topico, atendimento.fichaId(), json);
-        }
+
 
     }
 }
