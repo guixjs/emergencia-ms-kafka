@@ -3,8 +3,9 @@ package com.estudos.ms.atendimento.model;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public record AltaDTO(
-        Long fichaId,
-        String orientacoes
+        Long id,
+        String orientacoes,
+        FichaCriadaDTO ficha
 ) implements AtendimentoDTO{
 
 

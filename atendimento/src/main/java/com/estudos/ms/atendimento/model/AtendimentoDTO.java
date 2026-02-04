@@ -4,6 +4,7 @@ import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public sealed interface AtendimentoDTO permits AltaDTO, InternacaoDTO, MedicacaoDTO {
 
-    Long fichaId();
+    Long id();
     Encaminhamento encaminhamento();
+    FichaCriadaDTO ficha();
 }
