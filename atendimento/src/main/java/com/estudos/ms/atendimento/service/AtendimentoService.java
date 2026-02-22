@@ -21,17 +21,17 @@ public class AtendimentoService {
         var decisao = verificarSituacao(ficha);
 
         var atendimentoDTO = switch (decisao) {
-            case INTERNACAO -> new InternacaoDTO(ficha.id(),"Quarto 101", "Ala A", "Cirurgia emergencial", ficha);
-            case MEDICACAO -> new MedicacaoDTO(ficha.id(),"Paracetamol", "500mg", ficha);
-            case ALTA -> new AltaDTO(ficha.id(),"Repouso",ficha);
+            case INTERNACAO -> new InternacaoDTO(ficha.getId(),"Quarto 101", "Ala A", "Cirurgia emergencial", ficha);
+            case MEDICACAO -> new MedicacaoDTO(ficha.getId(),"Paracetamol", "500mg", ficha);
+            case ALTA -> new AltaDTO(ficha.getId(),"Repouso",ficha);
         };
 
         atendimentoDispatcher.enviarAtendimento(atendimentoDTO, "ATENDIMENTO_"+atendimentoDTO.encaminhamento().name());
     }
 
     private Encaminhamento verificarSituacao(FichaCriadaDTO ficha) {
-        var isPreferencial = ficha.preferencial();
-        var risco = ficha.risco();
+        var isPreferencial = ficha.getPreferencial();
+        var risco = ficha.getRisco();
 
         if (isPreferencial) {
             return Encaminhamento.INTERNACAO;

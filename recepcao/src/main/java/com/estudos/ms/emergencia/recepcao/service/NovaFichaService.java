@@ -8,9 +8,9 @@ import com.estudos.ms.emergencia.recepcao.mapper.FichaMapper;
 import com.estudos.ms.emergencia.recepcao.model.Ficha;
 import com.estudos.ms.emergencia.recepcao.model.Paciente;
 import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class NovaFichaService {
@@ -29,15 +29,21 @@ public class NovaFichaService {
         var ficha = montarFica(novaFichaRequestDTO);
         var fichaCriada = FichaMapper.converteDeEntidadeParaRespostaDTO(this.repository.save(ficha));
 
+        System.out.println("TESTE "+ fichaCriada);
         enviarFichaKafka(fichaCriada);
         return fichaCriada;
     }
 
     private void enviarFichaKafka(FichaCriadaDTO fichaCriada) {
 
-        String json = objectMapper.writeValueAsString(fichaCriada);
-        if (kafkaTemplate != null) {
-            kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), json);
+        try {
+            String json = objectMapper.writeValueAsString(fichaCriada);
+            if (kafkaTemplate != null) {
+                kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), json);
+            }
+
+        }catch (Exception e){
+            System.err.println("Erro ao enviar mensagem para Kafka: " + e.getMessage());
         }
     }
 

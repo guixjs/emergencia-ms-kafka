@@ -1,55 +1,61 @@
 package com.estudos.ms.emergencia.internacao.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "internacao_tb")
 public class Internacao {
 
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String quarto;
     private String ala;
     private String motivo;
 
+    @Embedded
     private Ficha ficha;
 
-    public String getId() {
+    public Internacao() {
+    }
+
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getQuarto() {
         return quarto;
     }
 
+    public void setQuarto(String quarto) {
+        this.quarto = quarto;
+    }
+
     public String getAla() {
         return ala;
+    }
+
+    public void setAla(String ala) {
+        this.ala = ala;
     }
 
     public String getMotivo() {
         return motivo;
     }
 
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+
     public Ficha getFicha() {
         return ficha;
     }
 
-    @Override
-    public String toString() {
-        String dados = "";
-
-        dados += "ID Internação: " + this.id + "\n";
-        dados += "Quarto: " + this.quarto + "\n";
-        dados += "Ala: " + this.ala + "\n";
-        dados += "Motivo: " + this.motivo + "\n";
-        dados += "---- Dados da Ficha ----\n";
-
-        dados += "ID Ficha: " + this.ficha.getId() + "\n";
-        dados += "Setor: " + this.ficha.getSetor() + "\n";
-        dados += "Risco: " + this.ficha.getRisco() + "\n";
-        dados += "Sintomas Relatados: " + this.ficha.getSintomasRelatados() + "\n";
-        dados += "Preferencial: " + this.ficha.getPreferencial() + "\n";
-
-
-        dados += "---- Dados do Paciente ----\n";
-        dados += "Nome: " + this.ficha.getInfoPaciente().getNome() + "\n";
-        dados += "Idade: " + this.ficha.getInfoPaciente().getIdade() + "\n";
-
-        return dados;
+    public void setFicha(Ficha ficha) {
+        this.ficha = ficha;
     }
 }

@@ -2,7 +2,8 @@ package com.estudos.ms.atendimento.model;
 
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
-public sealed interface AtendimentoDTO permits AltaDTO, InternacaoDTO, MedicacaoDTO {
+
+public interface AtendimentoDTO {
 
     Long id();
     Encaminhamento encaminhamento();

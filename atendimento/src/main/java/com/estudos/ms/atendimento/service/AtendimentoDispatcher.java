@@ -1,9 +1,9 @@
 package com.estudos.ms.atendimento.service;
 
 import com.estudos.ms.atendimento.model.AtendimentoDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class AtendimentoDispatcher {
@@ -28,9 +28,8 @@ public class AtendimentoDispatcher {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-
-
     }
 }
