@@ -1,9 +1,9 @@
 package com.estudos.ms.emergencia.internacao.service;
 
 import com.estudos.ms.emergencia.internacao.model.Internacao;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
 
 @Service
 public class ConsumerService {
@@ -19,7 +19,8 @@ public class ConsumerService {
     @KafkaListener(topics = "ATENDIMENTO_INTERNACAO", groupId = "internacao-group")
     public void consumirMensagemInternacao(String mensagem) {
         try {
-            var internacaoDTO = objectMapper.readValue(mensagem, Internacao.class);
+            Internacao internacaoDTO = objectMapper.readValue(mensagem, Internacao.class);
+            internacaoDTO.setId(null);
             this.processarInternacao.execute(internacaoDTO);
         } catch (Exception e) {
             System.err.println("Erro ao processar mensagem de internação: " + e.getMessage());
