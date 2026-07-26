@@ -19,8 +19,7 @@ public class ConsumerService {
     @KafkaListener(topics = "ATENDIMENTO_INTERNACAO", groupId = "internacao-group")
     public void consumirMensagemInternacao(String mensagem) {
         try {
-            Internacao internacaoDTO = objectMapper.readValue(mensagem, Internacao.class);
-            internacaoDTO.setId(null);
+            var internacaoDTO = objectMapper.readValue(mensagem, Internacao.class);
             this.processarInternacao.execute(internacaoDTO);
         } catch (Exception e) {
             System.err.println("Erro ao processar mensagem de internação: " + e.getMessage());

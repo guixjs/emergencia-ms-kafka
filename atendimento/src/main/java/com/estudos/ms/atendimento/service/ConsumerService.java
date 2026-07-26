@@ -18,15 +18,14 @@ public class ConsumerService {
         this.atendimentoService = atendimentoService;
     }
 
-    @KafkaListener(topics = "FICHA_CRIADA", groupId = "teste-json")
+    @KafkaListener(topics = "FICHA_CRIADA", groupId = "atendimento-group")
     public void consumir(ConsumerRecord<Long, String> record) {
         FichaCriadaDTO ficha = null;
         try {
             ficha = objectMapper.readValue(record.value(), FichaCriadaDTO.class);
+            this.atendimentoService.atender(ficha);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
-        this.atendimentoService.atender(ficha);
     }
 }
