@@ -3,7 +3,6 @@ package com.estudos.ms.atendimento.model;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public record InternacaoDTO(
-        Long id,
         String quarto,
         String ala,
         String motivo,

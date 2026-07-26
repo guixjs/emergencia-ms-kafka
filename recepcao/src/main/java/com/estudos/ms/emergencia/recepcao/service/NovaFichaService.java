@@ -1,35 +1,37 @@
 package com.estudos.ms.emergencia.recepcao.service;
 
-import com.estudos.ms.emergencia.recepcao.dto.FichaCriadaDTO;
-import com.estudos.ms.emergencia.recepcao.dto.NovaFichaRequestDTO;
-import com.estudos.ms.emergencia.recepcao.enums.Risco;
-import com.estudos.ms.emergencia.recepcao.enums.SetorEspecialidade;
-import com.estudos.ms.emergencia.recepcao.mapper.FichaMapper;
-import com.estudos.ms.emergencia.recepcao.model.Ficha;
-import com.estudos.ms.emergencia.recepcao.model.Paciente;
-import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import com.estudos.ms.emergencia.recepcao.dto.FichaCriadaDTO;
+import com.estudos.ms.emergencia.recepcao.dto.NovaFichaRequestDTO;
+import com.estudos.ms.emergencia.recepcao.mapper.FichaMapper;
+import com.estudos.ms.emergencia.recepcao.repository.FichaRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class NovaFichaService {
 
     private FichaRepository repository;
     private KafkaTemplate<Long, String> kafkaTemplate;
+    private TriagemService triagemService;
     private final ObjectMapper objectMapper;
+    private final static Logger logger = LoggerFactory.getLogger(NovaFichaService.class);
 
-    public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, String> kafkaTemplate, ObjectMapper objectMapper) {
+    public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, String> kafkaTemplate,
+            ObjectMapper objectMapper, TriagemService triagemService) {
         this.repository = repository;
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
+        this.triagemService = triagemService;
     }
 
     public FichaCriadaDTO execute(NovaFichaRequestDTO novaFichaRequestDTO) {
-        var ficha = montarFica(novaFichaRequestDTO);
+        var ficha = triagemService.montarFicha(novaFichaRequestDTO);
         var fichaCriada = FichaMapper.converteDeEntidadeParaRespostaDTO(this.repository.save(ficha));
 
-        System.out.println("TESTE "+ fichaCriada);
         enviarFichaKafka(fichaCriada);
         return fichaCriada;
     }
@@ -40,50 +42,11 @@ public class NovaFichaService {
             String json = objectMapper.writeValueAsString(fichaCriada);
             if (kafkaTemplate != null) {
                 kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), json);
+                logger.info("Mensagem enviada para Kafka: " + json);
             }
-
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Erro ao enviar mensagem para Kafka: " + e.getMessage());
+            logger.error("Não foi possível enviar a mensagem" + e.getMessage());
         }
-    }
-
-    private Ficha montarFica(NovaFichaRequestDTO novaFichaRequestDTO) {
-        var preferencial = verificarPrefencialidade(novaFichaRequestDTO.idadePaciente());
-        var setorIndicado = verificarSetor(novaFichaRequestDTO.sintomas(), novaFichaRequestDTO.idadePaciente());
-        var risco = verificarRisco(novaFichaRequestDTO.sintomas(), novaFichaRequestDTO.idadePaciente());
-
-
-        var paciente = new Paciente(novaFichaRequestDTO.nomePaciente(), novaFichaRequestDTO.idadePaciente());
-        return new Ficha(paciente, setorIndicado, risco, novaFichaRequestDTO.sintomas(), preferencial);
-    }
-
-    private Risco verificarRisco(String sintomas, Integer idade) {
-        if (sintomas.equalsIgnoreCase("Dor no peito")) {
-            return Risco.ALTO;
-        }
-        if (sintomas.equalsIgnoreCase("Fratura")) {
-            if (idade < 18 || idade > 65) {
-                return Risco.ALTO;
-            } else {
-                return Risco.MEDIO;
-            }
-        } else {
-            return Risco.BAIXO;
-        }
-    }
-
-    private SetorEspecialidade verificarSetor(String sintomas, Integer idade) {
-        if (idade < 18) {
-            return SetorEspecialidade.PEDIATRIA;
-        }
-        return switch (sintomas) {
-            case "Dor no peito" -> SetorEspecialidade.CARDIOLOGIA;
-            case "Fratura" -> SetorEspecialidade.ORTOPEDIA;
-            default -> SetorEspecialidade.CLINICO_GERAL;
-        };
-    }
-
-    private boolean verificarPrefencialidade(Integer idade) {
-        return idade <= 18 || idade >= 65;
     }
 }

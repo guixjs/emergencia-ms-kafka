@@ -9,17 +9,13 @@ public class ProcessarInternacaoService {
 
     private final InternacaoRepository internacaoRepository;
 
-
     public ProcessarInternacaoService(InternacaoRepository internacaoRepository) {
         this.internacaoRepository = internacaoRepository;
     }
+
     public void execute(Internacao internacao) {
-
-        Internacao interna = internacaoRepository.save(internacao);
-
-        internacaoRepository.save(interna);
+        var interna = internacaoRepository.save(internacao);
         System.out.println(interna);
-
     }
 
 }
