@@ -13,6 +13,7 @@
     <description>Projeto agregador dos microsserviços de emergência</description>
 
     <modules>
+        <module>alta</module>
         <module>atendimento</module>
         <module>internacao</module>
         <module>medicacao</module>

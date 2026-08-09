@@ -30,12 +30,12 @@ public class AtendimentoDispatcher {
             String json = objectMapper.writeValueAsString(atendimento);
             if (kafkaTemplate != null && Objects.nonNull(topico)) {
                 kafkaTemplate.send(topico, json);
-                logger.info("Mensagem enviada para Kafka: " + json);
+                logger.info("Mensagem enviada para Kafka: " + json + " para o topico: " + topico);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            logger.error("Não foi possível enviar a mensagem: " + e.getMessage());
+            logger.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
