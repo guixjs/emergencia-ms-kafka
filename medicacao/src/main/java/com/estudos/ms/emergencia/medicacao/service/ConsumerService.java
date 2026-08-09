@@ -21,7 +21,7 @@ public class ConsumerService {
   public void consumirMensagemMedicacao(String mensagem) {
     try {
       var medicacao = objectMapper.readValue(mensagem, Medicacao.class);
-
+      processarMedicacao.save(medicacao);
     } catch (Exception e) {
       System.err.println("Erro ao processar mensagem de medicação: " + e.getMessage());
     }
