@@ -14,6 +14,7 @@
 
     <modules>
         <module>alta</module>
+        <module>auditoria</module>
         <module>atendimento</module>
         <module>internacao</module>
         <module>medicacao</module>
