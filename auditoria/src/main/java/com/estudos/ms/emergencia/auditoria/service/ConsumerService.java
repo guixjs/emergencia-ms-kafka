@@ -27,6 +27,8 @@ public class ConsumerService {
   public void processarMensagem(ConsumerRecord<String, String> record) {
     try {
       LOG.info("Evento capturado no topico: {}", record.topic());
+
+      System.out.println("Chegou aqui");
       processarAuditoria.salvarEvento(record);
     } catch (Exception e) {
       System.out.println("Deu erro por algum motivo");

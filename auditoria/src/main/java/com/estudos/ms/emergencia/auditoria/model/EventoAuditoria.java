@@ -12,7 +12,6 @@ public class EventoAuditoria {
   @Id
   private String id;
   private Long idFicha;
-  private String infoPaciente;
   private String topico;
   private Map<String, Object> mensagem;
   private LocalDateTime timestamp;
@@ -20,25 +19,15 @@ public class EventoAuditoria {
   public EventoAuditoria() {
   }
 
- 
-
-  public EventoAuditoria(Long idFicha, String infoPaciente, String topico, Map<String, Object> mensagem,
-      LocalDateTime timestamp) {
+  public EventoAuditoria(Long idFicha, String topico, Map<String, Object> mensagem) {
     this.idFicha = idFicha;
-    this.infoPaciente = infoPaciente;
     this.topico = topico;
     this.mensagem = mensagem;
-    this.timestamp = timestamp;
+    this.timestamp = LocalDateTime.now();
   }
-
-
 
   public void setIdFicha(Long idFicha) {
     this.idFicha = idFicha;
-  }
-
-  public void setInfoPaciente(String infoPaciente) {
-    this.infoPaciente = infoPaciente;
   }
 
   public void setTopico(String topico) {
