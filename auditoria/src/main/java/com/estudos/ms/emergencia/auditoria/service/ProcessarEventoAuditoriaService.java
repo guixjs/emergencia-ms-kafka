@@ -1,6 +1,7 @@
 package com.estudos.ms.emergencia.auditoria.service;
 
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class ProcessarEventoAuditoriaService {
     System.out.println("CHEGOU AQUI EM SALVAR EVENTO");
     Map<String, Object> mensagem = converterMensagem(record.value());
     var topico = record.topic();
-    Long idFicha = ((Number) mensagem.get("id")).longValue();
+    var idFicha = capturaIdFicha(mensagem);
 
     EventoAuditoria evento = new EventoAuditoria(idFicha, topico, mensagem);
 
@@ -36,10 +37,17 @@ public class ProcessarEventoAuditoriaService {
     auditoriaRepository.save(evento);
   }
 
-  private Map<String, Object> converterMensagem(String value) {
-    System.out.println("CHEGOU AQUI EM CONVERTER MENSAGEM");
-    try {
+  private Long capturaIdFicha(Map<String, Object> mensagem) {
 
+    if (!Objects.isNull(mensagem.get("id"))) {
+      return ((Number) mensagem.get("id")).longValue();
+    }else{
+      return capturaIdFicha((Map<String, Object>) mensagem.get("ficha"));
+    }
+  }
+
+  private Map<String, Object> converterMensagem(String value) {
+    try {
       return objectMapper.readValue(
           value,
           new TypeReference<Map<String, Object>>() {

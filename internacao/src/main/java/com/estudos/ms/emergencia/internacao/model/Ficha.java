@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 @Embeddable
 public class Ficha {
 
-    private Long idFicha;
+    private Long id;
     private String setor;
     private String risco;
     private String sintomasRelatados;
@@ -18,7 +18,7 @@ public class Ficha {
     }
 
     public Ficha(Long id, String setor, String risco, String sintomasRelatados, Boolean preferencial, Paciente infoPaciente) {
-        this.idFicha = id;
+        this.id = id;
         this.setor = setor;
         this.risco = risco;
         this.sintomasRelatados = sintomasRelatados;
@@ -27,11 +27,11 @@ public class Ficha {
     }
 
     public Long getId() {
-        return idFicha;
+        return id;
     }
 
     public void setId(Long id) {
-        this.idFicha = id;
+        this.id = id;
     }
 
     public String getSetor() {

@@ -11,7 +11,7 @@ public class Ficha {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idFicha;
+    private Long id;
 
     @Embedded
     private Paciente paciente;
@@ -38,8 +38,8 @@ public class Ficha {
         this.preferencial = preferencial;
     }
 
-    public Long getIdFicha() {
-        return idFicha;
+    public Long getId() {
+        return id;
     }
 
     public Paciente getPaciente() {
