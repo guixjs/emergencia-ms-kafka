@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 @Embeddable
 public class Ficha {
 
+    @Column(name = "ficha_id")
     private Long id;
+
     private String setor;
     private String risco;
     private String sintomasRelatados;
@@ -17,7 +19,8 @@ public class Ficha {
     public Ficha() {
     }
 
-    public Ficha(Long id, String setor, String risco, String sintomasRelatados, Boolean preferencial, Paciente infoPaciente) {
+    public Ficha(Long id, String setor, String risco, String sintomasRelatados, Boolean preferencial,
+            Paciente infoPaciente) {
         this.id = id;
         this.setor = setor;
         this.risco = risco;
