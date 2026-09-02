@@ -16,13 +16,7 @@ public class Alta {
 
     public Alta() {
     }
-
-    public Alta(Long id, String orientação, Ficha ficha) {
-        this.id = id;
-        this.orientação = orientação;
-        this.ficha = ficha;
-    }
-
+    
     public Long getId() {
         return id;
     }

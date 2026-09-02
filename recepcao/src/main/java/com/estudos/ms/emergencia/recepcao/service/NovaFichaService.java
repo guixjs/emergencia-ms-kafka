@@ -18,7 +18,8 @@ public class NovaFichaService {
     private KafkaTemplate<Long, String> kafkaTemplate;
     private TriagemService triagemService;
     private final ObjectMapper objectMapper;
-    private final static Logger logger = LoggerFactory.getLogger(NovaFichaService.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(NovaFichaService.class);
+    private final static String TOPICO = "FICHA_CRIADA";
 
     public NovaFichaService(FichaRepository repository, KafkaTemplate<Long, String> kafkaTemplate,
             ObjectMapper objectMapper, TriagemService triagemService) {
@@ -41,12 +42,11 @@ public class NovaFichaService {
         try {
             String json = objectMapper.writeValueAsString(fichaCriada);
             if (kafkaTemplate != null) {
-                kafkaTemplate.send("FICHA_CRIADA", fichaCriada.id(), json);
-                logger.info("Mensagem enviada para Kafka: " + json);
+                kafkaTemplate.send(TOPICO, fichaCriada.id(), json);
+                LOGGER.info("Mensagem {} enviada para topico {}", json, TOPICO);
             }
         } catch (Exception e) {
-            System.err.println("Erro ao enviar mensagem para Kafka: " + e.getMessage());
-            logger.error("Não foi possível enviar a mensagem" + e.getMessage());
+            LOGGER.error("Nao foi possivel enviar a mensagem para o topico {}", TOPICO);
         }
     }
 }

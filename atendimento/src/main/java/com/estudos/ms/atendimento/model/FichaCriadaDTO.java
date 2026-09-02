@@ -1,6 +1,6 @@
 package com.estudos.ms.atendimento.model;
 
-public class FichaCriadaDTO{
+public class FichaCriadaDTO {
 
     private Long id;
     private String setor;

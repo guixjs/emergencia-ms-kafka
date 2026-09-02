@@ -8,7 +8,7 @@ public class FichaMapper {
     public static FichaCriadaDTO converteDeEntidadeParaRespostaDTO(Ficha ficha) {
 
         var paciente = new Paciente(ficha.getPaciente().getNome(), ficha.getPaciente().getIdade());
-        return new FichaCriadaDTO(ficha.getIdFicha(), ficha.getSetor(), ficha.getRisco(),ficha.getSintomas(),
+        return new FichaCriadaDTO(ficha.getId(), ficha.getSetor(), ficha.getRisco(),ficha.getSintomas(),
                 ficha.isPreferencial(),
                 paciente);
     }
