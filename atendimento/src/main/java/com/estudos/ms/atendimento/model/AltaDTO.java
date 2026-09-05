@@ -3,13 +3,12 @@ package com.estudos.ms.atendimento.model;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 
 public record AltaDTO(
-        String orientacoes,
-        FichaCriadaDTO ficha
-) implements AtendimentoDTO{
+    String orientacoes,
+    RelatorioTriagem relatorio) implements AtendimentoDTO {
 
+  @Override
+  public Encaminhamento encaminhamento() {
+    return Encaminhamento.ALTA;
+  }
 
-    @Override
-    public Encaminhamento encaminhamento() {
-        return Encaminhamento.ALTA;
-    }
 }

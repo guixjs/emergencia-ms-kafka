@@ -1,4 +1,4 @@
-package com.estudos.ms.emergencia.recepcao.enums;
+package com.estudos.ms.atendimento.enums;
 
 public enum Risco {
     BAIXO,

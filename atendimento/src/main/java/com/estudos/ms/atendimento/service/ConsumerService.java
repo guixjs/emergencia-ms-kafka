@@ -15,7 +15,6 @@ public class ConsumerService {
 
     private final ObjectMapper objectMapper;
     private final AtendimentoService atendimentoService;
-    private final static Logger LOGGER = LoggerFactory.getLogger(ConsumerService.class);
     private final static String TOPICO = "FICHA_CRIADA";
 
     public ConsumerService(ObjectMapper objectMapper, AtendimentoService atendimentoService) {
@@ -27,7 +26,6 @@ public class ConsumerService {
     public void consumir(ConsumerRecord<Long, String> record) {
         FichaCriadaDTO ficha = null;
         try {
-            LOGGER.info("Mensagem recebida pelo ATENDIMENTO -- Topico: {}", TOPICO );
             ficha = objectMapper.readValue(record.value(), FichaCriadaDTO.class);
             this.atendimentoService.atender(ficha);
         } catch (JsonProcessingException e) {

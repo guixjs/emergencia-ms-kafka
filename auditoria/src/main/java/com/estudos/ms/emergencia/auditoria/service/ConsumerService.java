@@ -18,6 +18,8 @@ public class ConsumerService {
 
   @KafkaListener(topics = {
       "FICHA_CRIADA",
+      "ATENDIMENTO_INCIADO",
+      "ATENDIMENTO_CONCLUIDO", 
       "ATENDIMENTO_ALTA",
       "ATENDIMENTO_MEDICACAO",
       "ATENDIMENTO_INTERNACAO",

@@ -1,6 +1,9 @@
 package com.estudos.ms.atendimento.service;
 
 import com.estudos.ms.atendimento.model.AtendimentoDTO;
+import com.estudos.ms.atendimento.model.FichaCriadaDTO;
+import com.estudos.ms.atendimento.model.RelatorioTriagem;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import java.util.Random;
@@ -42,6 +45,24 @@ public class AtendimentoDispatcher {
         } catch (Exception e) {
             LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
             throw new RuntimeException(e);
+        }
+    }
+
+    public void notificarAtendimentoInciado(FichaCriadaDTO ficha) {
+        try {
+            var json = objectMapper.writeValueAsString(ficha);
+            kafkaTemplate.send("ATENDIMENTO_INCIADO", json);
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
+        }
+    }
+
+    public void notificarAtendimentoConcluido(RelatorioTriagem relatorio){
+        try {
+            var json = objectMapper.writeValueAsString(relatorio);
+            kafkaTemplate.send("ATENDIMENTO_CONCLUIDO", json);
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
         }
     }
 }
