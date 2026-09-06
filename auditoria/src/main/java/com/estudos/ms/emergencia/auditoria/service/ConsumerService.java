@@ -19,10 +19,10 @@ public class ConsumerService {
   @KafkaListener(topics = {
       "FICHA_CRIADA",
       "ATENDIMENTO_INCIADO",
-      "ATENDIMENTO_CONCLUIDO", 
-      "ATENDIMENTO_ALTA",
-      "ATENDIMENTO_MEDICACAO",
-      "ATENDIMENTO_INTERNACAO",
+      "ATENDIMENTO_CONCLUIDO",
+      "ENCAMINHAMENTO_ALTA",
+      "ENCAMINHAMENTO_MEDICACAO",
+      "ENCAMINHAMENTO_INTERNACAO",
       "PACIENTE_INTERNADO",
       "PACIENTE_MEDICADO",
       "PACIENTE_LIBERADO" }, groupId = "auditoria-group")

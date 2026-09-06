@@ -9,6 +9,6 @@ public class FichaMapper {
 
         var paciente = new Paciente(ficha.getPaciente().getNome(), ficha.getPaciente().getIdade());
 
-        return new FichaCriadaDTO(ficha.getId(), ficha.getSintomas(), ficha.isPreferencial(), paciente);
+        return new FichaCriadaDTO(ficha.getIdFicha(), ficha.getSintomas(), ficha.isPreferencial(), paciente);
     }
 }

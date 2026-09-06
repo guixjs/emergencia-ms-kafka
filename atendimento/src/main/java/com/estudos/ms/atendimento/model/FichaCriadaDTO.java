@@ -2,13 +2,13 @@ package com.estudos.ms.atendimento.model;
 
 public class FichaCriadaDTO {
 
-    private Long id;
+    private Long idFicha;
     private String sintomasRelatados;
     private boolean preferencial;
     private Paciente infoPaciente;
 
-    public Long getId() {
-        return id;
+    public Long getIdFicha() {
+        return idFicha;
     }
 
     public String getSintomasRelatados() {

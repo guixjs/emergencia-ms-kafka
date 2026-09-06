@@ -16,8 +16,8 @@ public class ConsumerService {
     this.objectMapper = objectMapper;
     this.processarAlta = processarAlta;
   }
-  
-  @KafkaListener(topics = "ATENDIMENTO_ALTA", groupId = "alta-group")
+
+  @KafkaListener(topics = "ENCAMINHAMENTO_ALTA", groupId = "alta-group")
   public void consumirMensagemAlta(String mensagem) {
     try {
       var alta = objectMapper.readValue(mensagem, Alta.class);

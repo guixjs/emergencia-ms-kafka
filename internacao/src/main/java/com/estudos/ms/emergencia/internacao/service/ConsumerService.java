@@ -16,7 +16,7 @@ public class ConsumerService {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = "ATENDIMENTO_INTERNACAO", groupId = "internacao-group")
+    @KafkaListener(topics = "ENCAMINHAMENTO_INTERNACAO", groupId = "internacao-group")
     public void consumirMensagemInternacao(String mensagem) {
         try {
             var internacaoDTO = objectMapper.readValue(mensagem, Internacao.class);

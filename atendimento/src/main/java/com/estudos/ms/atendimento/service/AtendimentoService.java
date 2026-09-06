@@ -31,7 +31,7 @@ public class AtendimentoService {
         var atendimentoDTO = criarEncaminhamento(decisao, relatorio);
 
         atendimentoDispatcher.enviarAtendimento(atendimentoDTO,
-                "ATENDIMENTO_" + atendimentoDTO.encaminhamento().name());
+                "ENCAMINHAMENTO_" + atendimentoDTO.encaminhamento().name());
     }
 
     private AtendimentoDTO criarEncaminhamento(Encaminhamento decisao, RelatorioTriagem relatorio) {
