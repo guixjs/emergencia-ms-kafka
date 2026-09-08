@@ -1,7 +1,7 @@
-package com.estudos.ms.atendimento.model;
+package com.estudos.ms.emergencia.alta.model;
 
-import com.estudos.ms.atendimento.enums.Risco;
-import com.estudos.ms.atendimento.enums.SetorEspecialidade;
+import com.estudos.ms.emergencia.alta.enums.Risco;
+import com.estudos.ms.emergencia.alta.enums.SetorEspecialidade;
 
 public class RelatorioTriagem {
   private SetorEspecialidade setor;

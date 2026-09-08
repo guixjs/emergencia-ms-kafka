@@ -1,5 +1,7 @@
 package com.estudos.ms.emergencia.alta.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,21 +10,26 @@ public class Alta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idLiberacao;
     private String orientação;
 
     @Embedded
-    private Ficha ficha;
+    private RelatorioTriagem ficha;
 
     public Alta() {
     }
-    
-    public Long getId() {
-        return id;
+
+    public Alta(String orientação, RelatorioTriagem ficha) {
+        this.orientação = orientação;
+        this.ficha = ficha;
+    }
+
+    public Long getIdLiberacao() {
+        return idLiberacao;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idLiberacao = id;
     }
 
     public String getOrientação() {
@@ -32,13 +39,4 @@ public class Alta {
     public void setOrientação(String orientação) {
         this.orientação = orientação;
     }
-
-    public Ficha getFicha() {
-        return ficha;
-    }
-
-    public void setFicha(Ficha ficha) {
-        this.ficha = ficha;
-    }
-
 }

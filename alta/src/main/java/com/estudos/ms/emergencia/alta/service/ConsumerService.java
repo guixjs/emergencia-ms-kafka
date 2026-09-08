@@ -4,24 +4,25 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.estudos.ms.emergencia.alta.model.Alta;
+import com.estudos.ms.emergencia.alta.model.RelatorioTriagem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ConsumerService {
 
   private final ObjectMapper objectMapper;
-  private final ProcessarAlta processarAlta;
+  private final AltaService altaService;
 
-  public ConsumerService(ObjectMapper objectMapper, ProcessarAlta processarAlta) {
+  public ConsumerService(ObjectMapper objectMapper, AltaService altaService) {
     this.objectMapper = objectMapper;
-    this.processarAlta = processarAlta;
+    this.altaService = altaService;
   }
 
   @KafkaListener(topics = "ENCAMINHAMENTO_ALTA", groupId = "alta-group")
   public void consumirMensagemAlta(String mensagem) {
     try {
-      var alta = objectMapper.readValue(mensagem, Alta.class);
-      processarAlta.save(alta);
+      var relatorio = objectMapper.readValue(mensagem, RelatorioTriagem.class);
+      altaService.processarAlta(relatorio);
     } catch (Exception e) {
       System.err.println("Erro ao processar mensagem de alta: " + e.getMessage());
     }

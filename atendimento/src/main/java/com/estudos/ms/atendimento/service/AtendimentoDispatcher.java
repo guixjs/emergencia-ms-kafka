@@ -1,22 +1,20 @@
 package com.estudos.ms.atendimento.service;
 
-import com.estudos.ms.atendimento.model.AtendimentoDTO;
-import com.estudos.ms.atendimento.model.FichaCriadaDTO;
-import com.estudos.ms.atendimento.model.RelatorioTriagem;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.estudos.ms.atendimento.model.Ficha;
+import com.estudos.ms.atendimento.model.RelatorioTriagem;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Service
 public class AtendimentoDispatcher {
 
-    private final Random random = new Random();
     private final KafkaTemplate<Long, String> kafkaTemplate;
     private final ObjectMapper objectMapper;
     private final Logger LOGGER = LoggerFactory.getLogger(AtendimentoDispatcher.class);
@@ -26,42 +24,44 @@ public class AtendimentoDispatcher {
         this.objectMapper = objectMapper;
     }
 
-    public void enviarAtendimento(AtendimentoDTO atendimento, String topico) {
-
+    public void encaminharPaciente(RelatorioTriagem relatorioTriagem) {
         try {
-            // simulando atendimento
-            int tempoDeAtendimento = random.nextInt(9) + 1;
-            tempoDeAtendimento = tempoDeAtendimento * 1000;
-            Thread.sleep(tempoDeAtendimento);
-            // simulando atendimento
-
-            String json = objectMapper.writeValueAsString(atendimento);
-            if (kafkaTemplate != null && Objects.nonNull(topico)) {
-                kafkaTemplate.send(topico, json);
-                LOGGER.info("Mensagem: {} Topico Enviado: {} ", json, topico);
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        } catch (Exception e) {
-            LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
-            throw new RuntimeException(e);
+            var json = objectMapper.writeValueAsString(relatorioTriagem);
+            var topico = relatorioTriagem.getEncaminhamento().toString();
+            topico = "ENCAMINHAMENTO_" + topico;
+            enviarMensagem(json, topico);
+        } catch (JsonProcessingException e) {
+            LOGGER.error("Erro ao converter mensagem " + e.getMessage());
         }
     }
 
-    public void notificarAtendimentoInciado(FichaCriadaDTO ficha) {
+    public void notificarAtendimentoInciado(Ficha ficha) {
         try {
             var json = objectMapper.writeValueAsString(ficha);
-            kafkaTemplate.send("ATENDIMENTO_INCIADO", json);
+            enviarMensagem("ATENDIMENTO_INCIADO", json);
         } catch (JsonProcessingException e) {
-            LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
+            LOGGER.error("Erro ao converter mensagem " + e.getMessage());
         }
     }
 
-    public void notificarAtendimentoConcluido(RelatorioTriagem relatorio){
+    public void notificarAtendimentoConcluido(RelatorioTriagem relatorio) {
         try {
             var json = objectMapper.writeValueAsString(relatorio);
-            kafkaTemplate.send("ATENDIMENTO_CONCLUIDO", json);
+            enviarMensagem("ATENDIMENTO_CONCLUIDO", json);
         } catch (JsonProcessingException e) {
+            LOGGER.error("Erro ao converter mensagem " + e.getMessage());
+        }
+    }
+
+    private void enviarMensagem(String mensagem, String topico) {
+        try {
+            if (Objects.nonNull(topico)) {
+                kafkaTemplate.send(topico, mensagem);
+            } else {
+                LOGGER.error("Topico nao informado!");
+
+            }
+        } catch (Exception e) {
             LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
         }
     }

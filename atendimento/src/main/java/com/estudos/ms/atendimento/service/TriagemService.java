@@ -5,13 +5,13 @@ import org.springframework.stereotype.Service;
 import com.estudos.ms.atendimento.enums.Encaminhamento;
 import com.estudos.ms.atendimento.enums.Risco;
 import com.estudos.ms.atendimento.enums.SetorEspecialidade;
-import com.estudos.ms.atendimento.model.FichaCriadaDTO;
+import com.estudos.ms.atendimento.model.Ficha;
 import com.estudos.ms.atendimento.model.RelatorioTriagem;
 
 @Service
 public class TriagemService {
 
-  public RelatorioTriagem gerarRelatorioMedico(FichaCriadaDTO ficha) {
+  public RelatorioTriagem gerarRelatorioMedico(Ficha ficha) {
     var isPreferencial = ficha.getPreferencial();
     var idadePaciente = ficha.getInfoPaciente().getIdade();
     var sintomas = ficha.getSintomasRelatados();
@@ -20,7 +20,7 @@ public class TriagemService {
     var risco = verificarRisco(sintomas, idadePaciente);
     var encaminhamento = verificarSituacao(isPreferencial, risco.toString());
 
-    return new RelatorioTriagem(setor, risco, ficha, encaminhamento);
+    return new RelatorioTriagem(setor, risco, ficha, encaminhamento.toString());
 
   }
 
