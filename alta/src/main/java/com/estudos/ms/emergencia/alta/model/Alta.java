@@ -1,8 +1,11 @@
 package com.estudos.ms.emergencia.alta.model;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "alta_tb")
@@ -14,14 +17,14 @@ public class Alta {
     private String orientação;
 
     @Embedded
-    private RelatorioTriagem ficha;
+    private RelatorioTriagem relatorio;
 
     public Alta() {
     }
 
-    public Alta(String orientação, RelatorioTriagem ficha) {
+    public Alta(String orientação, RelatorioTriagem relatorio) {
         this.orientação = orientação;
-        this.ficha = ficha;
+        this.relatorio = relatorio;
     }
 
     public Long getIdLiberacao() {

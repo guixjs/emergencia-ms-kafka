@@ -23,8 +23,8 @@ public class DispatcherFicha {
     try {
       String json = objectMapper.writeValueAsString(fichaCriada);
       if (kafkaTemplate != null) {
-        kafkaTemplate.send(TOPICO, fichaCriada.id(), json);
-        System.out.println("Ficha enviada");
+        kafkaTemplate.send(TOPICO, fichaCriada.idFicha(), json);
+        System.out.println("Ficha enviada: " + json);
       }
     } catch (Exception e) {
       System.out.println("Erro:" + e.getMessage());

@@ -23,6 +23,7 @@ public class ConsumerService {
     try {
       var relatorio = objectMapper.readValue(mensagem, RelatorioTriagem.class);
       altaService.processarAlta(relatorio);
+      System.out.println("Mensagem consumida!");
     } catch (Exception e) {
       System.err.println("Erro ao processar mensagem de alta: " + e.getMessage());
     }

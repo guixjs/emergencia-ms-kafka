@@ -3,9 +3,23 @@ package com.estudos.ms.emergencia.alta.model;
 import com.estudos.ms.emergencia.alta.enums.Risco;
 import com.estudos.ms.emergencia.alta.enums.SetorEspecialidade;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+@Embeddable
 public class RelatorioTriagem {
+  public RelatorioTriagem() {
+  }
+
+  @Enumerated(EnumType.STRING)
   private SetorEspecialidade setor;
+
+  @Enumerated(EnumType.STRING)
   private Risco risco;
+
+  @Embedded
   private Ficha ficha;
   private String encaminhamento;
 
