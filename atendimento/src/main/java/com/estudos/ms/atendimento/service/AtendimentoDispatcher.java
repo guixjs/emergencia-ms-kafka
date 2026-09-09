@@ -29,7 +29,7 @@ public class AtendimentoDispatcher {
             var json = objectMapper.writeValueAsString(relatorioTriagem);
             var topico = relatorioTriagem.getEncaminhamento().toString();
             topico = "ENCAMINHAMENTO_" + topico;
-            enviarMensagem(json, topico);
+            enviarMensagem(topico, json);
         } catch (JsonProcessingException e) {
             LOGGER.error("Erro ao converter mensagem " + e.getMessage());
         }
@@ -53,10 +53,11 @@ public class AtendimentoDispatcher {
         }
     }
 
-    private void enviarMensagem(String mensagem, String topico) {
+    private void enviarMensagem(String topico, String mensagem) {
         try {
             if (Objects.nonNull(topico)) {
                 kafkaTemplate.send(topico, mensagem);
+                System.out.println("Mensagem enviada! " + topico + " - " + mensagem);
             } else {
                 LOGGER.error("Topico nao informado!");
 
