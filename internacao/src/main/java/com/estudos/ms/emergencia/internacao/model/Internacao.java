@@ -14,9 +14,16 @@ public class Internacao {
     private String motivo;
 
     @Embedded
-    private Ficha ficha;
+    private RelatorioTriagem relatorio;
 
     public Internacao() {
+    }
+
+    public Internacao(String quarto, String ala, String motivo, RelatorioTriagem relatorio) {
+        this.quarto = quarto;
+        this.ala = ala;
+        this.motivo = motivo;
+        this.relatorio = relatorio;
     }
 
     public Long getId() {
@@ -51,11 +58,12 @@ public class Internacao {
         this.motivo = motivo;
     }
 
-    public Ficha getFicha() {
-        return ficha;
+    public RelatorioTriagem getRelatorio() {
+        return relatorio;
     }
 
-    public void setFicha(Ficha ficha) {
-        this.ficha = ficha;
+    public void setRelatorio(RelatorioTriagem relatorio) {
+        this.relatorio = relatorio;
     }
+
 }

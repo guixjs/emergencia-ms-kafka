@@ -13,7 +13,7 @@ public class Alta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLiberacao;
+    private Long idAlta;
     private String orientação;
 
     @Embedded
@@ -27,12 +27,12 @@ public class Alta {
         this.relatorio = relatorio;
     }
 
-    public Long getIdLiberacao() {
-        return idLiberacao;
+    public Long getIdIdAltaberacao() {
+        return idAlta;
     }
 
-    public void setId(Long id) {
-        this.idLiberacao = id;
+    public void setIdAlta(Long id) {
+        this.idAlta = id;
     }
 
     public String getOrientação() {

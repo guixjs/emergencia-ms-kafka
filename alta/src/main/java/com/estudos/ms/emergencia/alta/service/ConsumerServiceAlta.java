@@ -3,17 +3,16 @@ package com.estudos.ms.emergencia.alta.service;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.estudos.ms.emergencia.alta.model.Alta;
 import com.estudos.ms.emergencia.alta.model.RelatorioTriagem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class ConsumerService {
+public class ConsumerServiceAlta {
 
   private final ObjectMapper objectMapper;
   private final AltaService altaService;
 
-  public ConsumerService(ObjectMapper objectMapper, AltaService altaService) {
+  public ConsumerServiceAlta(ObjectMapper objectMapper, AltaService altaService) {
     this.objectMapper = objectMapper;
     this.altaService = altaService;
   }

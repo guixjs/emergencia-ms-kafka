@@ -38,7 +38,6 @@ public class AltaService {
     try {
       var json = objectMapper.writeValueAsString(alta);
       kafkaTemplate.send("PACIENTE_LIBERADO", json);
-      save(alta);
     } catch (Exception e) {
       logger.error(e.getMessage());
     }
