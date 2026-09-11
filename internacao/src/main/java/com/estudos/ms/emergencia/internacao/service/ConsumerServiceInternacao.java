@@ -1,10 +1,10 @@
 package com.estudos.ms.emergencia.internacao.service;
 
-import com.estudos.ms.emergencia.internacao.model.Internacao;
-import com.estudos.ms.emergencia.internacao.model.RelatorioTriagem;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import com.estudos.ms.emergencia.internacao.model.RelatorioTriagem;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ConsumerServiceInternacao {

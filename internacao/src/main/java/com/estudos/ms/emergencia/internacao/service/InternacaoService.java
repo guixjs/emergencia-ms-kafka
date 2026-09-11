@@ -1,5 +1,8 @@
 package com.estudos.ms.emergencia.internacao.service;
 
+import java.time.LocalDateTime;
+
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.estudos.ms.emergencia.internacao.model.Internacao;
@@ -23,6 +26,8 @@ public class InternacaoService {
     var ala = "Vermelha";
     var motivo = "Necessidade de procedimento cirúrgico";
     var internacao = new Internacao(quarto, ala, motivo, relatorio);
+
+    internacaoDispatcher.notificarInternacao(internacao);
     save(internacao);
   }
 
@@ -31,6 +36,18 @@ public class InternacaoService {
       internacaoRepository.save(internacao);
     } catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  @Scheduled(fixedRate = 10000)
+  public void verificarInternacao() {
+    var internacoes = internacaoRepository.findByDataHoraFimInternacaoBeforeAndInternacaoFinalizadaFalse(
+        LocalDateTime.now());
+
+    for (var internacao : internacoes) {
+      internacaoDispatcher.liberarPaciente(internacao);
+      internacao.setInternacaoFinalizada(true);
+      internacaoRepository.save(internacao);
     }
   }
 

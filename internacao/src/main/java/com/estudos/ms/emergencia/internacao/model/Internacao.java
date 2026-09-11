@@ -1,5 +1,7 @@
 package com.estudos.ms.emergencia.internacao.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +18,10 @@ public class Internacao {
     @Embedded
     private RelatorioTriagem relatorio;
 
+    private LocalDateTime dataHoraInicioInternacao;
+    private LocalDateTime dataHoraFimInternacao;
+    private boolean internacaoFinalizada;
+
     public Internacao() {
     }
 
@@ -24,6 +30,9 @@ public class Internacao {
         this.ala = ala;
         this.motivo = motivo;
         this.relatorio = relatorio;
+        this.dataHoraInicioInternacao = LocalDateTime.now();
+        this.dataHoraFimInternacao = LocalDateTime.now().plusSeconds(30);
+        this.internacaoFinalizada = false;
     }
 
     public Long getId() {
@@ -64,6 +73,14 @@ public class Internacao {
 
     public void setRelatorio(RelatorioTriagem relatorio) {
         this.relatorio = relatorio;
+    }
+
+    public boolean isInternacaoFinalizada() {
+        return internacaoFinalizada;
+    }
+
+    public void setInternacaoFinalizada(boolean internacaoFinalizada) {
+        this.internacaoFinalizada = internacaoFinalizada;
     }
 
 }

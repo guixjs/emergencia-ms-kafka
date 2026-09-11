@@ -17,15 +17,24 @@ public class ConsumerService {
   }
 
   @KafkaListener(topics = {
+      //topicos recepcao
       "FICHA_CRIADA",
+      //topicos atendimento
       "ATENDIMENTO_INCIADO",
-      "ATENDIMENTO_CONCLUIDO",
       "ENCAMINHAMENTO_ALTA",
       "ENCAMINHAMENTO_MEDICACAO",
       "ENCAMINHAMENTO_INTERNACAO",
+      "ATENDIMENTO_CONCLUIDO",
+      
+      //topicos internacao
+      "INTERNACAO_INICIADA",
+      "INTERNACAO_FINALIZADA",
+      
+      //topico alta
+      "PACIENTE_LIBERADO",
+
       "PACIENTE_INTERNADO",
-      "PACIENTE_MEDICADO",
-      "PACIENTE_LIBERADO" }, groupId = "auditoria-group")
+      "PACIENTE_MEDICADO" }, groupId = "auditoria-group")
   public void processarMensagem(ConsumerRecord<String, String> record) {
     try {
       LOG.info("Evento capturado no topico: {}", record.topic());

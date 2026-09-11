@@ -1,5 +1,7 @@
 package com.estudos.ms.emergencia.alta.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +21,15 @@ public class Alta {
     @Embedded
     private RelatorioTriagem relatorio;
 
+    private LocalDateTime dataHoraAltaPaciente;
+
     public Alta() {
     }
 
     public Alta(String orientação, RelatorioTriagem relatorio) {
         this.orientação = orientação;
         this.relatorio = relatorio;
+        this.dataHoraAltaPaciente = LocalDateTime.now();
     }
 
     public Long getIdIdAltaberacao() {
@@ -42,4 +47,13 @@ public class Alta {
     public void setOrientação(String orientação) {
         this.orientação = orientação;
     }
+
+    public LocalDateTime getDataHoraAltaPaciente() {
+        return dataHoraAltaPaciente;
+    }
+
+    public void setDataHoraAltaPaciente(LocalDateTime dataHoraAltaPaciente) {
+        this.dataHoraAltaPaciente = dataHoraAltaPaciente;
+    }
+
 }
