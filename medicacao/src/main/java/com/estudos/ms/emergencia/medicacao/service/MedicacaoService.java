@@ -1,8 +1,5 @@
 package com.estudos.ms.emergencia.medicacao.service;
 
-import java.time.LocalDateTime;
-
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.estudos.ms.emergencia.medicacao.model.Medicacao;
