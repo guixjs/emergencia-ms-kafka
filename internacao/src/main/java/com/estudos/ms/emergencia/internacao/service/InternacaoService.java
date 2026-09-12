@@ -27,16 +27,17 @@ public class InternacaoService {
     var motivo = "Necessidade de procedimento cirúrgico";
     var internacao = new Internacao(quarto, ala, motivo, relatorio);
 
-    internacaoDispatcher.notificarInternacao(internacao);
-    save(internacao);
+    var internacaoSalva = save(internacao);
+    internacaoDispatcher.notificarInternacao(internacaoSalva);
   }
 
-  private void save(Internacao internacao) {
+  private Internacao save(Internacao internacao) {
     try {
-      internacaoRepository.save(internacao);
+      return internacaoRepository.save(internacao);
     } catch (Exception e) {
       e.printStackTrace();
     }
+    return null;
   }
 
   @Scheduled(fixedRate = 10000)
@@ -45,9 +46,9 @@ public class InternacaoService {
         LocalDateTime.now());
 
     for (var internacao : internacoes) {
-      internacaoDispatcher.liberarPaciente(internacao);
       internacao.setInternacaoFinalizada(true);
       internacaoRepository.save(internacao);
+      internacaoDispatcher.liberarPaciente(internacao);
     }
   }
 

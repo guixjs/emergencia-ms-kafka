@@ -22,22 +22,24 @@ public class Alta {
     private RelatorioTriagem relatorio;
 
     private LocalDateTime dataHoraAltaPaciente;
+    private String origem;
 
     public Alta() {
     }
 
-    public Alta(String orientação, RelatorioTriagem relatorio) {
+    public Alta(String orientação, RelatorioTriagem relatorio, String origem) {
         this.orientação = orientação;
         this.relatorio = relatorio;
+        this.origem = origem;
         this.dataHoraAltaPaciente = LocalDateTime.now();
     }
 
-    public Long getIdIdAltaberacao() {
+    public Long getIdAlta() {
         return idAlta;
     }
 
-    public void setIdAlta(Long id) {
-        this.idAlta = id;
+    public void setIdAlta(Long idAlta) {
+        this.idAlta = idAlta;
     }
 
     public String getOrientação() {
@@ -48,12 +50,28 @@ public class Alta {
         this.orientação = orientação;
     }
 
+    public RelatorioTriagem getRelatorio() {
+        return relatorio;
+    }
+
+    public void setRelatorio(RelatorioTriagem relatorio) {
+        this.relatorio = relatorio;
+    }
+
     public LocalDateTime getDataHoraAltaPaciente() {
         return dataHoraAltaPaciente;
     }
 
     public void setDataHoraAltaPaciente(LocalDateTime dataHoraAltaPaciente) {
         this.dataHoraAltaPaciente = dataHoraAltaPaciente;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
 }

@@ -10,7 +10,7 @@ public class Internacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idInternacao;
     private String quarto;
     private String ala;
     private String motivo;
@@ -35,12 +35,12 @@ public class Internacao {
         this.internacaoFinalizada = false;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdInternacao() {
+        return idInternacao;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdInternacao(Long idInternacao) {
+        this.idInternacao = idInternacao;
     }
 
     public String getQuarto() {
@@ -73,6 +73,22 @@ public class Internacao {
 
     public void setRelatorio(RelatorioTriagem relatorio) {
         this.relatorio = relatorio;
+    }
+
+    public LocalDateTime getDataHoraInicioInternacao() {
+        return dataHoraInicioInternacao;
+    }
+
+    public void setDataHoraInicioInternacao(LocalDateTime dataHoraInicioInternacao) {
+        this.dataHoraInicioInternacao = dataHoraInicioInternacao;
+    }
+
+    public LocalDateTime getDataHoraFimInternacao() {
+        return dataHoraFimInternacao;
+    }
+
+    public void setDataHoraFimInternacao(LocalDateTime dataHoraFimInternacao) {
+        this.dataHoraFimInternacao = dataHoraFimInternacao;
     }
 
     public boolean isInternacaoFinalizada() {

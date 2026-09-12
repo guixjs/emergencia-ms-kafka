@@ -21,8 +21,11 @@ public class InternacaoDispatcherService {
 
   public void liberarPaciente(Internacao internacao) {
     try {
+      var relatorio = internacao.getRelatorio();
+
       var json = objectMapper.writeValueAsString(internacao);
-      kafkaTemplate.send("PACIENTE_LIBERADO", json);
+      var relatorioJson = objectMapper.writeValueAsString(relatorio);
+      kafkaTemplate.send("ENCAMINHAMENTO_ALTA", relatorioJson);
       kafkaTemplate.send("INTERNACAO_FINALIZADA", json);
       System.out
           .println("Paciente liberado e internação finalizada" + json + " data e hora now: " + LocalDateTime.now());
@@ -38,7 +41,7 @@ public class InternacaoDispatcherService {
       kafkaTemplate.send("INTERNACAO_INICIADA", json);
       System.out.println("Notificação Internação inciada: " + json);
     } catch (Exception e) {
-      // TODO: handle exception
+      // TODO: log
     }
   }
 

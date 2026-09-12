@@ -29,26 +29,32 @@ public class AltaService {
 
   public void processarAlta(RelatorioTriagem relatorioTriagem) {
     var orientacao = "Repouso";
-    var alta = new Alta(orientacao, relatorioTriagem);
-    save(alta);
-    liberarPaciente(alta);
+    var origem = relatorioTriagem.getEncaminhamento().toString();
+    var alta = new Alta(orientacao, relatorioTriagem, origem);
+    var altaSalva = save(alta);
+    liberarPaciente(altaSalva);
   }
 
   public void liberarPaciente(Alta alta) {
     try {
       var json = objectMapper.writeValueAsString(alta);
       kafkaTemplate.send("PACIENTE_LIBERADO", json);
+      System.out.println("Paciente liberado: " + json);
     } catch (Exception e) {
       logger.error(e.getMessage());
     }
   }
 
-  private void save(Alta alta) {
-    if (Objects.nonNull(alta)) {
-      this.altaRepository.save(alta);
-    } else {
-      logger.error("Alta nula, não foi possível salvar.");
+  private Alta save(Alta alta) {
+    try {
+      if (Objects.nonNull(alta)) {
+        return this.altaRepository.save(alta);
+      }
+    } catch (Exception e) {
+      // TODO: log
     }
+
+    return null;
   }
 
 }
