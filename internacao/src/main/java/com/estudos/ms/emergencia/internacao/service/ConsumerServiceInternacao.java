@@ -24,7 +24,7 @@ public class ConsumerServiceInternacao {
       internacaoService.processarInternacao(relatorio);
       System.out.println("Mensagem consumida!");
     } catch (Exception e) {
-      System.err.println("Erro ao processar mensagem de alta: " + e.getMessage());
+      System.err.println("Erro: " + e.getMessage());
     }
   }
 }

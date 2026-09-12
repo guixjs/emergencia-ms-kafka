@@ -3,16 +3,16 @@ package com.estudos.ms.emergencia.medicacao.service;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.estudos.ms.emergencia.medicacao.model.Medicacao;
+import com.estudos.ms.emergencia.medicacao.model.RelatorioTriagem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class ConsumerService {
+public class ConsumerServiceMedicacao {
 
   private final ObjectMapper objectMapper;
-  private final ProcessarMedicacao processarMedicacao;
+  private final MedicacaoService processarMedicacao;
 
-  public ConsumerService(ObjectMapper objectMapper, ProcessarMedicacao processarMedicacao) {
+  public ConsumerServiceMedicacao(ObjectMapper objectMapper, MedicacaoService processarMedicacao) {
     this.objectMapper = objectMapper;
     this.processarMedicacao = processarMedicacao;
   }
@@ -20,10 +20,11 @@ public class ConsumerService {
   @KafkaListener(topics = "ENCAMINHAMENTO_MEDICACAO", groupId = "medicacao-group")
   public void consumirMensagemMedicacao(String mensagem) {
     try {
-      var medicacao = objectMapper.readValue(mensagem, Medicacao.class);
-      processarMedicacao.save(medicacao);
+      var relatorio = objectMapper.readValue(mensagem, RelatorioTriagem.class);
+      processarMedicacao.processarMedicacao(relatorio);
+      System.out.println("Mensagem consumida!");
     } catch (Exception e) {
-      System.err.println("Erro ao processar mensagem de medicação: " + e.getMessage());
+      System.err.println("Erro: " + e.getMessage());
     }
   }
 }
