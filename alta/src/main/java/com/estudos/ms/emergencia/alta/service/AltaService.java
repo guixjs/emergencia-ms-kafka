@@ -27,9 +27,8 @@ public class AltaService {
     this.kafkaTemplate = kafkaTemplate;
   }
 
-  public void processarAlta(RelatorioTriagem relatorioTriagem) {
+  public void processarAlta(RelatorioTriagem relatorioTriagem, String origem) {
     var orientacao = "Repouso";
-    var origem = relatorioTriagem.getEncaminhamento().toString();
     var alta = new Alta(orientacao, relatorioTriagem, origem);
     var altaSalva = save(alta);
     liberarPaciente(altaSalva);

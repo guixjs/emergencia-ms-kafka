@@ -1,7 +1,9 @@
 package com.estudos.ms.emergencia.internacao.service;
 
 import java.time.LocalDateTime;
+import java.nio.charset.StandardCharsets;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +27,8 @@ public class InternacaoDispatcherService {
 
       var json = objectMapper.writeValueAsString(internacao);
       var relatorioJson = objectMapper.writeValueAsString(relatorio);
-      kafkaTemplate.send("ENCAMINHAMENTO_ALTA", relatorioJson);
-      kafkaTemplate.send("INTERNACAO_FINALIZADA", json);
+      enviarMensagem("ENCAMINHAMENTO_ALTA", relatorioJson);
+      enviarMensagem("INTERNACAO_FINALIZADA", json);
       System.out
           .println("Paciente liberado e internação finalizada" + json + " data e hora now: " + LocalDateTime.now());
     } catch (Exception e) {
@@ -38,11 +40,17 @@ public class InternacaoDispatcherService {
   public void notificarInternacao(Internacao internacao) {
     try {
       var json = objectMapper.writeValueAsString(internacao);
-      kafkaTemplate.send("INTERNACAO_INICIADA", json);
+      enviarMensagem("INTERNACAO_INICIADA", json);
       System.out.println("Notificação Internação inciada: " + json);
     } catch (Exception e) {
       // TODO: log
     }
+  }
+
+  private void enviarMensagem(String topico, String mensagem) {
+    var record = new ProducerRecord<Long, String>(topico, null, mensagem);
+    record.headers().add("origem", "INTERNACAO".getBytes(StandardCharsets.UTF_8));
+    kafkaTemplate.send(record);
   }
 
 }

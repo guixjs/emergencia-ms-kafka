@@ -1,7 +1,9 @@
 package com.estudos.ms.atendimento.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -55,13 +57,10 @@ public class AtendimentoDispatcher {
 
   private void enviarMensagem(String topico, String mensagem) {
     try {
-      if (Objects.nonNull(topico)) {
-        kafkaTemplate.send(topico, mensagem);
-        System.out.println("Mensagem enviada! " + topico + " - " + mensagem);
-      } else {
-        LOGGER.error("Topico nao informado!");
-
-      }
+      var record = new ProducerRecord<Long, String>(topico, null, mensagem);
+      record.headers().add("origem", "ATENDIMENTO".getBytes(StandardCharsets.UTF_8));
+      kafkaTemplate.send(record);
+      System.out.println("Mensagem enviada! " + topico + " - " + mensagem);
     } catch (Exception e) {
       LOGGER.error("Nao foi possivel enviar a mensagem: " + e.getMessage());
     }
