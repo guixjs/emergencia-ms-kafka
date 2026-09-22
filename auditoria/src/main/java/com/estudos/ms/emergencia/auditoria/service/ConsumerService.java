@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 public class ConsumerService {
 
   private final Logger LOG = LoggerFactory.getLogger(ConsumerService.class);
-  private final ProcessarEventoAuditoriaService processarAuditoria;
+  private final AuditoriaService processarAuditoria;
 
-  public ConsumerService(ProcessarEventoAuditoriaService processarAuditoria) {
+  public ConsumerService(AuditoriaService processarAuditoria) {
     this.processarAuditoria = processarAuditoria;
   }
 
@@ -33,7 +33,7 @@ public class ConsumerService {
       // topico medicacao
       "MEDICACAO_INICIADA",
       "MEDICACAO_CONCLUIDA" }, groupId = "auditoria-group")
-  public void processarMensagem(ConsumerRecord<String, String> record) {
+  public void consumir(ConsumerRecord<?, String> record) {
     try {
       LOG.info("Evento capturado no topico: {}", record.topic());
 

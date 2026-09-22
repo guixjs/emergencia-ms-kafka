@@ -11,35 +11,54 @@ public class EventoAuditoria {
 
   @Id
   private String id;
+  private String idEvento;
   private Long idFicha;
-  private String topico;
-  private Map<String, Object> mensagem;
+  private String origem;
+  private String destino;
+  private String tipoEvento;
+  private Map<String, Object> payload;
   private LocalDateTime timestamp;
 
   public EventoAuditoria() {
   }
 
-  public EventoAuditoria(Long idFicha, String topico, Map<String, Object> mensagem) {
+  public EventoAuditoria(String idEvento, Long idFicha, String origem, String destino,
+      String tipoEvento, Map<String, Object> payload, LocalDateTime timestamp) {
+    this.idEvento = idEvento;
     this.idFicha = idFicha;
-    this.topico = topico;
-    this.mensagem = mensagem;
-    this.timestamp = LocalDateTime.now();
-  }
-
-  public void setIdFicha(Long idFicha) {
-    this.idFicha = idFicha;
-  }
-
-  public void setTopico(String topico) {
-    this.topico = topico;
-  }
-
-  public void setMensagem(Map<String, Object> mensagem) {
-    this.mensagem = mensagem;
-  }
-
-  public void setTimestamp(LocalDateTime timestamp) {
+    this.origem = origem;
+    this.destino = destino;
+    this.tipoEvento = tipoEvento;
+    this.payload = payload;
     this.timestamp = timestamp;
+  }
+
+  public String getEventId() {
+    return idEvento;
+  }
+
+  public Long getIdFicha() {
+    return idFicha;
+  }
+
+  public String getOrigem() {
+    return origem;
+  }
+
+  public String getDestino() {
+    return destino;
+  }
+
+  public String getTipoEvento() {
+    return tipoEvento;
+  }
+
+  public Map<String, Object> getPayload() {
+    return payload;
+  }
+
+  public LocalDateTime getTimestamp() {
+    return timestamp;
   }
 
 }
