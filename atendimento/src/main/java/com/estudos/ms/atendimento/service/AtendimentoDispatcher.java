@@ -1,7 +1,6 @@
 package com.estudos.ms.atendimento.service;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;

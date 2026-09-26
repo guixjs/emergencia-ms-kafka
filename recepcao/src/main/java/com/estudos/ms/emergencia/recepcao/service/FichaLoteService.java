@@ -5,9 +5,7 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
-import com.estudos.ms.emergencia.recepcao.dto.FichaCriadaDTO;
 import com.estudos.ms.emergencia.recepcao.dto.NovaFichaRequestDTO;
-import com.estudos.ms.emergencia.recepcao.model.Ficha;
 
 @Service
 public class FichaLoteService {
