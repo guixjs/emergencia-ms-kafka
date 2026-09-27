@@ -10,21 +10,30 @@ import org.springframework.stereotype.Service;
 public class ConsumerService {
 
   private final Logger LOG = LoggerFactory.getLogger(ConsumerService.class);
-  private final ProcessarEventoAuditoriaService processarAuditoria;
+  private final AuditoriaService processarAuditoria;
 
-  public ConsumerService(ProcessarEventoAuditoriaService processarAuditoria) {
+  public ConsumerService(AuditoriaService processarAuditoria) {
     this.processarAuditoria = processarAuditoria;
   }
 
   @KafkaListener(topics = {
+      // topicos recepcao
       "FICHA_CRIADA",
-      "ATENDIMENTO_ALTA",
-      "ATENDIMENTO_MEDICACAO",
-      "ATENDIMENTO_INTERNACAO",
-      "PACIENTE_INTERNADO",
-      "PACIENTE_MEDICADO",
-      "PACIENTE_LIBERADO" }, groupId = "auditoria-group")
-  public void processarMensagem(ConsumerRecord<String, String> record) {
+      // topicos atendimento
+      "ATENDIMENTO_INCIADO",
+      "ENCAMINHAMENTO_ALTA",
+      "ENCAMINHAMENTO_MEDICACAO",
+      "ENCAMINHAMENTO_INTERNACAO",
+      "ATENDIMENTO_CONCLUIDO",
+      // topicos internacao
+      "INTERNACAO_INICIADA",
+      "INTERNACAO_FINALIZADA",
+      // topico alta
+      "PACIENTE_LIBERADO",
+      // topico medicacao
+      "MEDICACAO_INICIADA",
+      "MEDICACAO_CONCLUIDA" }, groupId = "auditoria-group")
+  public void consumir(ConsumerRecord<?, String> record) {
     try {
       LOG.info("Evento capturado no topico: {}", record.topic());
 

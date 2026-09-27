@@ -1,6 +1,13 @@
 package com.estudos.ms.emergencia.alta.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "alta_tb")
@@ -8,21 +15,31 @@ public class Alta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idAlta;
     private String orientação;
 
     @Embedded
-    private Ficha ficha;
+    private RelatorioTriagem relatorio;
+
+    private LocalDateTime dataHoraAltaPaciente;
+    private String origem;
 
     public Alta() {
     }
-    
-    public Long getId() {
-        return id;
+
+    public Alta(String orientação, RelatorioTriagem relatorio, String origem) {
+        this.orientação = orientação;
+        this.relatorio = relatorio;
+        this.origem = origem;
+        this.dataHoraAltaPaciente = LocalDateTime.now();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getIdAlta() {
+        return idAlta;
+    }
+
+    public void setIdAlta(Long idAlta) {
+        this.idAlta = idAlta;
     }
 
     public String getOrientação() {
@@ -33,12 +50,28 @@ public class Alta {
         this.orientação = orientação;
     }
 
-    public Ficha getFicha() {
-        return ficha;
+    public RelatorioTriagem getRelatorio() {
+        return relatorio;
     }
 
-    public void setFicha(Ficha ficha) {
-        this.ficha = ficha;
+    public void setRelatorio(RelatorioTriagem relatorio) {
+        this.relatorio = relatorio;
+    }
+
+    public LocalDateTime getDataHoraAltaPaciente() {
+        return dataHoraAltaPaciente;
+    }
+
+    public void setDataHoraAltaPaciente(LocalDateTime dataHoraAltaPaciente) {
+        this.dataHoraAltaPaciente = dataHoraAltaPaciente;
+    }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
     }
 
 }

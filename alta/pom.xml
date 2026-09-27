@@ -6,6 +6,7 @@
 	<groupId>com.estudos.ms.emergencia</groupId>
 	<artifactId>alta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+    
 	<name>alta</name>
 	<description>Módulo responsável pela alta do paciente</description>
 

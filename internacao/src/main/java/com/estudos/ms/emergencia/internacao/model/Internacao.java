@@ -1,5 +1,7 @@
 package com.estudos.ms.emergencia.internacao.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,23 +10,37 @@ public class Internacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idInternacao;
     private String quarto;
     private String ala;
     private String motivo;
 
     @Embedded
-    private Ficha ficha;
+    private RelatorioTriagem relatorio;
+
+    private LocalDateTime dataHoraInicioInternacao;
+    private LocalDateTime dataHoraFimInternacao;
+    private boolean internacaoFinalizada;
 
     public Internacao() {
     }
 
-    public Long getId() {
-        return id;
+    public Internacao(String quarto, String ala, String motivo, RelatorioTriagem relatorio) {
+        this.quarto = quarto;
+        this.ala = ala;
+        this.motivo = motivo;
+        this.relatorio = relatorio;
+        this.dataHoraInicioInternacao = LocalDateTime.now();
+        this.dataHoraFimInternacao = LocalDateTime.now().plusSeconds(30);
+        this.internacaoFinalizada = false;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getIdInternacao() {
+        return idInternacao;
+    }
+
+    public void setIdInternacao(Long idInternacao) {
+        this.idInternacao = idInternacao;
     }
 
     public String getQuarto() {
@@ -51,11 +67,36 @@ public class Internacao {
         this.motivo = motivo;
     }
 
-    public Ficha getFicha() {
-        return ficha;
+    public RelatorioTriagem getRelatorio() {
+        return relatorio;
     }
 
-    public void setFicha(Ficha ficha) {
-        this.ficha = ficha;
+    public void setRelatorio(RelatorioTriagem relatorio) {
+        this.relatorio = relatorio;
     }
+
+    public LocalDateTime getDataHoraInicioInternacao() {
+        return dataHoraInicioInternacao;
+    }
+
+    public void setDataHoraInicioInternacao(LocalDateTime dataHoraInicioInternacao) {
+        this.dataHoraInicioInternacao = dataHoraInicioInternacao;
+    }
+
+    public LocalDateTime getDataHoraFimInternacao() {
+        return dataHoraFimInternacao;
+    }
+
+    public void setDataHoraFimInternacao(LocalDateTime dataHoraFimInternacao) {
+        this.dataHoraFimInternacao = dataHoraFimInternacao;
+    }
+
+    public boolean isInternacaoFinalizada() {
+        return internacaoFinalizada;
+    }
+
+    public void setInternacaoFinalizada(boolean internacaoFinalizada) {
+        this.internacaoFinalizada = internacaoFinalizada;
+    }
+
 }

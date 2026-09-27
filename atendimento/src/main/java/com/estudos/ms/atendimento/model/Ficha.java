@@ -1,24 +1,14 @@
 package com.estudos.ms.atendimento.model;
 
-public class FichaCriadaDTO {
+public class Ficha {
 
-    private Long id;
-    private String setor;
-    private String risco;
+    private Long idFicha;
     private String sintomasRelatados;
-    private Boolean preferencial;
+    private boolean preferencial;
     private Paciente infoPaciente;
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getSetor() {
-        return setor;
-    }
-
-    public String getRisco() {
-        return risco;
+    public Long getIdFicha() {
+        return idFicha;
     }
 
     public String getSintomasRelatados() {
